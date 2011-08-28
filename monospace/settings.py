@@ -1,3 +1,5 @@
+import os
+
 # customized settings
 PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 SITE_ROOT = os.path.dirname(PROJECT_ROOT)
@@ -5,11 +7,20 @@ SITE_ROOT = os.path.dirname(PROJECT_ROOT)
 TIME_ZONE = 'America/Los_Angeles'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlist3', 
+        'ENGINE': 'django.db.backends.sqlite3', 
         'NAME': os.path.join(SITE_ROOT, 'monospace.sqlite'),                      
     }
 }
 TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'templates'))
+INSTALLED_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+)
 
 # default Django settings
 DEBUG = True
@@ -43,14 +54,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 ROOT_URLCONF = 'monospace.urls'
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-)
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
