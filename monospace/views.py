@@ -1,5 +1,6 @@
 import datetime
 
+from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
@@ -62,11 +63,15 @@ def register(request):
         stripe_id = customer.id
       )
       user.set_password(form.cleaned_data['password1'])
-      user.save()
-      request.session['user'] = user.pk
-
-      return HttpResponseRedirect('/')
-    
+      
+      try:
+        user.save()
+      except IntegrityError:
+        form.addError(user.email + ' is already a member')
+      else:
+        request.session['user'] = user.pk
+        return HttpResponseRedirect('/')
+        
   else:
     form = UserForm()
       

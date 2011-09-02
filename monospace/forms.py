@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import NON_FIELD_ERRORS
 
 class SignInForm(forms.Form):
   
@@ -55,5 +56,7 @@ class UserForm(CardForm):
       raise forms.ValidationError('Passwords do not match')
     return cleaned_data
   
+  def addError(self, message):
+    self._errors[NON_FIELD_ERRORS] = self.error_class([message])
   
   
