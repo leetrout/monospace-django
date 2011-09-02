@@ -33,9 +33,9 @@ def sign_in(request):
       return HttpResponseRedirect('/')
   else:
     form = SignInForm()
-      
+
   return render_to_response(
-    'sign_in.html', 
+    'sign_in.html',
     {
       'form': form
     },
@@ -55,7 +55,7 @@ def register(request):
         description = form.cleaned_data['email'],
         card = form.cleaned_data['stripe_token']
       )
-      
+
       user = User(
         name = form.cleaned_data['name'],
         email = form.cleaned_data['email'],
@@ -63,7 +63,7 @@ def register(request):
         stripe_id = customer.id
       )
       user.set_password(form.cleaned_data['password1'])
-      
+
       try:
         user.save()
       except IntegrityError:
@@ -71,12 +71,12 @@ def register(request):
       else:
         request.session['user'] = user.pk
         return HttpResponseRedirect('/')
-        
+
   else:
     form = UserForm()
-      
+
   return render_to_response(
-    'register.html', 
+    'register.html',
     {
       'form': form,
       'publishable': settings.STRIPE_PUBLISHABLE,
@@ -89,30 +89,29 @@ def register(request):
 
 def edit(request):
   uid = request.session.get('user')
-  if uid is None: 
-    return HttpResponseRedirect('/') 
+  if uid is None:
+    return HttpResponseRedirect('/')
   if request.method == 'POST':
     form = CardForm(request.POST)
     if form.is_valid():
 
       user = User.objects.get(pk=uid)
 
-      customer = stripe.Customer.create(
-        description = user.email,
-        card = form.cleaned_data['stripe_token']
-      )
-      
+      customer = stripe.Customer.retrieve(user.stripe_id)
+      customer.card = form.cleaned_data['stripe_token']
+      customer.save()
+
       user.last_4_digits = form.cleaned_data['last_4_digits']
       user.stripe_id = customer.id
       user.save()
-      
+
       return HttpResponseRedirect('/')
-    
+
   else:
     form = CardForm()
-      
+
   return render_to_response(
-    'edit.html', 
+    'edit.html',
     {
       'form': form,
       'publishable': settings.STRIPE_PUBLISHABLE,
@@ -122,5 +121,5 @@ def edit(request):
     },
     context_instance=RequestContext(request)
   )
-  
-  
+
+
