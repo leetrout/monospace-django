@@ -4,7 +4,8 @@ Monospace uses the Stripe Javascript bindings to validate a credit card, and the
 
 Installation steps:
 * You will need a publishable token and a secret token. Add them both to monospace/setting.py
-* Install virtualenv if you don't already have it
+* Install virtualenv if you don't already have it:
+  * easy_install virtualenv
 * Run the following commands from the root of this project:
   * virtualenv --no-site-packages env
   * source env/bin/activate
