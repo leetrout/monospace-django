@@ -24,8 +24,7 @@ INSTALLED_APPS = (
   'django.contrib.sessions',
   'django.contrib.sites',
   'django.contrib.staticfiles',
-  'monospace',
-  'django_bcrypt',
+  'monospace'
 )
 BCRYPT_ROUNDS = 15
 
