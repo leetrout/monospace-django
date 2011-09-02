@@ -53,7 +53,8 @@ def register(request):
 
       customer = stripe.Customer.create(
         description = form.cleaned_data['email'],
-        card = form.cleaned_data['stripe_token']
+        card = form.cleaned_data['stripe_token'],
+        plan = 'basic'
       )
 
       user = User(
