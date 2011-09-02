@@ -1,9 +1,12 @@
 import os
 
+# Stripe keys
+STRIPE_PUBLISHABLE = 'pk_7KsnBtE8sZ7YNbz5eRixvV7QCq3Bj'
+STRIPE_SECRET = '2CkYWEuCwNBkz4i7cfQygJ6sodZBenyU'
+
 # customized settings
 PROJECT_ROOT = os.path.realpath(os.path.dirname(__file__))
 SITE_ROOT = os.path.dirname(PROJECT_ROOT)
-
 TIME_ZONE = 'America/Los_Angeles'
 DATABASES = {
     'default': {
@@ -11,17 +14,20 @@ DATABASES = {
         'NAME': os.path.join(SITE_ROOT, 'monospace.sqlite'),                      
     }
 }
-TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'templates'))
+TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, 'templates'),)
+STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, 'static'),)
 INSTALLED_APPS = (
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'monospace',
+  'django.contrib.admin',
+  'django.contrib.auth',
+  'django.contrib.contenttypes',
+  'django.contrib.messages',
+  'django.contrib.sessions',
+  'django.contrib.sites',
+  'django.contrib.staticfiles',
+  'monospace',
+  'django_bcrypt',
 )
+BCRYPT_ROUNDS = 15
 
 # default Django settings
 DEBUG = True
@@ -37,7 +43,7 @@ MEDIA_URL = ''
 STATIC_ROOT = ''
 STATIC_URL = '/static/'
 ADMIN_MEDIA_PREFIX = '/static/admin/'
-STATICFILES_DIRS = ()
+
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',

@@ -1,0 +1,32 @@
+{% load static %}<!DOCTYPE html>
+<html>
+  <head>
+    <title>Monospace</title>
+    <link href="{% get_static_prefix %}bootstrap.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="{% get_static_prefix %}monospace.css" media="screen" rel="stylesheet" type="text/css">
+    <script src="https://js.stripe.com/v1/" type="text/javascript"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        Stripe.publishableKey = '{{ publishable }}';
+        //]]>
+    </script>
+    <script src="{% get_static_prefix %}jquery.js" type="text/javascript"></script>
+    <script src="{% get_static_prefix %}application.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <h3><a href="{% url home %}">Monospace</a></h3>
+          <ul class="nav">
+            <li><a href="{% url sign_in %}">Sign In</a></li>
+            <li><a href="{% url register %}">Register</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="main container">
+{% block main %}{% endblock %}
+    </div>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+{% extends "page.html" %}
+{% block main %}
+      <div class="row">
+        <div class="span6 columns">
+        </div>
+      </div>
+      <p>Welcome {{ user.name }}.</p>
+      <p><a href="{% url edit %}">Edit my credit card</a></p>  
+      <p><a href="{% url sign_out %}">Sign out</a></p>  
+{% endblock %}
