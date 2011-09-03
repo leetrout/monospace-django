@@ -1,7 +1,12 @@
 from django import forms
 from django.core.exceptions import NON_FIELD_ERRORS
 
-class SignInForm(forms.Form):
+class MonospaceForm(forms.Form):
+
+  def addError(self, message):
+    self._errors[NON_FIELD_ERRORS] = self.error_class([message])
+
+class SignInForm(MonospaceForm):
   
   email = forms.EmailField(
     required = True
@@ -12,7 +17,7 @@ class SignInForm(forms.Form):
     widget = forms.PasswordInput(render_value = False)
   )
   
-class CardForm(forms.Form):
+class CardForm(MonospaceForm):
   
   last_4_digits = forms.CharField(
     required = True,
@@ -56,7 +61,5 @@ class UserForm(CardForm):
       raise forms.ValidationError('Passwords do not match')
     return cleaned_data
   
-  def addError(self, message):
-    self._errors[NON_FIELD_ERRORS] = self.error_class([message])
   
   

@@ -28,12 +28,19 @@ def sign_in(request):
   if request.method == 'POST':
     form = SignInForm(request.POST)
     if form.is_valid():
-      user = User.objects.get(email=form.cleaned_data['email'])
-      if user.check_password(form.cleaned_data['password']):
-        request.session['user'] = user.pk
-      return HttpResponseRedirect('/')
+      results = User.objects.filter(email=form.cleaned_data['email'])
+      if len(results) == 1:
+        if results[0].check_password(form.cleaned_data['password']):
+          request.session['user'] = results[0].pk
+          return HttpResponseRedirect('/')
+        else:
+          form.addError('Incorrect email address or password')
+      else:
+        form.addError('Incorrect email address or password')
   else:
     form = SignInForm()
+    
+  print form.non_field_errors()
 
   return render_to_response(
     'sign_in.html',
