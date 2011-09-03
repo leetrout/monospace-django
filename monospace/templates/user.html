@@ -5,5 +5,5 @@
         </div>
       </div>
       <p>Welcome {{ user.name }}.</p>
-      <p><a href="{% url edit %}">Edit my credit card</a></p>  
+      <p>Your credit card ends with {{ user.last_4_digits }} (<a href="{% url edit %}">change</a>)</p>
 {% endblock %}
