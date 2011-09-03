@@ -19,8 +19,12 @@
         <div class="container">
           <h3><a href="{% url home %}">Monospace</a></h3>
           <ul class="nav">
+          {% if user %}
+            <li><a href="{% url sign_out %}">Sign Out</a></li>
+          {% else %}
             <li><a href="{% url sign_in %}">Sign In</a></li>
             <li><a href="{% url register %}">Register</a></li>
+          {% endif %}
           </ul>
         </div>
       </div>

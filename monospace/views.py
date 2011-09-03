@@ -24,6 +24,7 @@ def home(request):
     return render_to_response('user.html', {'user': User.objects.get(pk=uid)})
 
 def sign_in(request):
+  user = None
   if request.method == 'POST':
     form = SignInForm(request.POST)
     if form.is_valid():
@@ -37,7 +38,8 @@ def sign_in(request):
   return render_to_response(
     'sign_in.html',
     {
-      'form': form
+      'form': form,
+      'user': user
     },
     context_instance=RequestContext(request)
   )
@@ -47,6 +49,7 @@ def sign_out(request):
   return HttpResponseRedirect('/')
 
 def register(request):
+  user = None
   if request.method == 'POST':
     form = UserForm(request.POST)
     if form.is_valid():
@@ -80,10 +83,11 @@ def register(request):
     'register.html',
     {
       'form': form,
+      'months': range(1, 12),
       'publishable': settings.STRIPE_PUBLISHABLE,
       'soon': soon(),
-      'months': range(1, 12),
-      'years': range(2011, 2036)
+      'user': user,
+      'years': range(2011, 2036),
     },
     context_instance=RequestContext(request)
   )
@@ -92,11 +96,10 @@ def edit(request):
   uid = request.session.get('user')
   if uid is None:
     return HttpResponseRedirect('/')
+  user = User.objects.get(pk=uid)
   if request.method == 'POST':
     form = CardForm(request.POST)
     if form.is_valid():
-
-      user = User.objects.get(pk=uid)
 
       customer = stripe.Customer.retrieve(user.stripe_id)
       customer.card = form.cleaned_data['stripe_token']
